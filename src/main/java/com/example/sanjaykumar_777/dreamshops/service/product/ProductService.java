@@ -1,7 +1,9 @@
 package com.example.sanjaykumar_777.dreamshops.service.product;
 
 import com.example.sanjaykumar_777.dreamshops.exception.ProductNotFoundException;
+import com.example.sanjaykumar_777.dreamshops.model.Category;
 import com.example.sanjaykumar_777.dreamshops.model.Product;
+import com.example.sanjaykumar_777.dreamshops.repository.CategoryRepository;
 import com.example.sanjaykumar_777.dreamshops.repository.ProductRepository;
 import com.example.sanjaykumar_777.dreamshops.request.AddProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,40 @@ public class ProductService implements IProductService{
 
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
     @Override
-    public Product addProduct(AddProductRequest product) {
-        return null;
+    public Product addProduct(AddProductRequest request) {
+
+        //check if the category is found in the db
+        //if yes, set it as the category for the new product
+        //if no, then save is as a new category
+        //Then set it as the new category for the product
+        Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
+                .orElseGet(()-> {
+                    Category newCategory = new Category(request.getCategory().getName());
+                    return categoryRepository.save(newCategory);
+                });
+
+        request.setCategory(category);
+        return productRepository.save(createProduct(request,category));
+
+
+
     }
+
+    public Product createProduct(AddProductRequest request, Category category){
+        return new Product(
+                request.getName(),
+                request.getBrand(),
+                request.getPrice(),
+                request.getInventory(),
+                request.getDescription(),
+                category
+        );
+    }
+
+
 
     @Override
     public Product getProductById(Long id) {
