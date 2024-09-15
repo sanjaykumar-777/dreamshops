@@ -3,6 +3,7 @@ package com.example.sanjaykumar_777.dreamshops.service.product;
 import com.example.sanjaykumar_777.dreamshops.exception.ProductNotFoundException;
 import com.example.sanjaykumar_777.dreamshops.model.Product;
 import com.example.sanjaykumar_777.dreamshops.repository.ProductRepository;
+import com.example.sanjaykumar_777.dreamshops.request.AddProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class ProductService implements IProductService{
     @Autowired
     ProductRepository productRepository;
     @Override
-    public Product addProduct(Product product) {
+    public Product addProduct(AddProductRequest product) {
         return null;
     }
 

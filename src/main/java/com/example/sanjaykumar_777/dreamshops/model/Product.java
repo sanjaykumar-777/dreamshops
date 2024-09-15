@@ -10,6 +10,11 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * It is not advisable to use
+ * Data annotation on entity
+ * classes
+ */
 @Getter
 @Setter
 @AllArgsConstructor
