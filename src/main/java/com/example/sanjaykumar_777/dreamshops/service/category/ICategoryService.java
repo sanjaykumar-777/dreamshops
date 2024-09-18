@@ -3,6 +3,7 @@ package com.example.sanjaykumar_777.dreamshops.service.category;
 import com.example.sanjaykumar_777.dreamshops.model.Category;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ICategoryService {
     Category getCategoryById(Long id);

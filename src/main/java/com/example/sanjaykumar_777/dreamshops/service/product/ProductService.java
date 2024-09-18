@@ -8,10 +8,12 @@ import com.example.sanjaykumar_777.dreamshops.repository.ProductRepository;
 import com.example.sanjaykumar_777.dreamshops.request.AddProductRequest;
 import com.example.sanjaykumar_777.dreamshops.request.ProductUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ProductService implements IProductService {
 
     @Autowired
