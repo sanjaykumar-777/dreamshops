@@ -7,6 +7,7 @@ import com.example.sanjaykumar_777.dreamshops.response.ApiResponse;
 import com.example.sanjaykumar_777.dreamshops.service.image.IImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,32 @@ public class ImageController {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Upload failed!", e.getMessage()));
         }
 
+    }
+
+    @GetMapping("image/download/{imageId}")
+    public ResponseEntity<Resource> downloadImage(@PathVariable Long imageId) throws SQLException {
+        Image image = imageService.getImageById(imageId);
+        //used to retrieve the binary data (as a byte array) from a Blob or Clob object in a database
+        ByteArrayResource resource = new ByteArrayResource(image.getImage().getBytes(1, (int) image.getImage().length()));
+
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(image.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+image.getFileName()+"\"")
+                .body(resource);
+
+    }
+
+    @PutMapping("/image/{imageId}/update")
+    public ResponseEntity<ApiResponse> updateImage(@PathVariable Long imageId, @RequestBody MultipartFile file){
+        Image image = imageService.getImageById(imageId);
+        try {
+            if(image != null){
+                imageService.updateImage(file,imageId);
+                return ResponseEntity.ok(new ApiResponse("update success!",null));
+            }
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
+        }
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse("Update Failed!",INTERNAL_SERVER_ERROR));
     }
 
     @DeleteMapping("/image/{imageId}/delete")
