@@ -17,4 +17,14 @@ import java.util.List;
 public class ProductController {
     private final IProductService productService;
 
+    @GetMapping("/products")
+    public ResponseEntity<ApiResponse> getAllProducts(){
+        try {
+            List<Product> products = productService.getAllProducts();
+            return ResponseEntity.ok(new ApiResponse("products retrieved",null));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
