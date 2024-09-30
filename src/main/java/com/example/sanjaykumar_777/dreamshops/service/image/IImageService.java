@@ -2,7 +2,6 @@ package com.example.sanjaykumar_777.dreamshops.service.image;
 
 import com.example.sanjaykumar_777.dreamshops.dto.ImageDto;
 import com.example.sanjaykumar_777.dreamshops.model.Image;
-import com.example.sanjaykumar_777.dreamshops.model.Product;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
